@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mnu1"
+        android:title="Otwórz ALX.pl" />
+
+    <item
+        android:id="@+id/mnu2"
+        android:title="Udostępnij" />
+
+    <item
+        android:id="@+id/mnu4"
+        android:title="ScrollView" />
+
+    <item
+        android:id="@+id/mnu5"
+        android:title="Canvas" />
+
+    <item
+        android:id="@+id/mnu6"
+        android:title="Thread" />
+
+    <item
+        android:id="@+id/mnu3"
+        android:checkable="true"
+        android:checked="true"
+        android:title="Opcja 3">
+        <menu>
+            <item android:title="opcja A" />
+            <item android:title="opcja B" />
+        </menu>
+    </item>
+
+</menu>
