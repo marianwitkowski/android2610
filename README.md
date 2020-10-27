@@ -1,1 +1,1 @@
-### Archiwum kursu 26.10
+### Archiwum kursu Android 26.10
