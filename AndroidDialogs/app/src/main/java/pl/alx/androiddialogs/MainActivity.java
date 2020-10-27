@@ -4,10 +4,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -128,5 +131,36 @@ public class MainActivity extends AppCompatActivity {
                 }, year, month, day );
         pickerDialog.setTitle("Podaj datę");
         pickerDialog.show();
+    }
+
+    public void timePickerDialog(View view) {
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+        TimePickerDialog pickerDialog = new TimePickerDialog(this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        showToast(String.format("%02d:%02d", hourOfDay, minute));
+                    }
+                },hour, minute, true);
+        pickerDialog.setTitle("Podaj czas");
+        pickerDialog.show();
+    }
+
+    public void customDialog(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View customLayout = getLayoutInflater().inflate(R.layout.custom_dialog, null);
+        builder.setView(customLayout);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EditText et = customLayout.findViewById(R.id.editName);
+                showToast( et.getText().toString() );
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

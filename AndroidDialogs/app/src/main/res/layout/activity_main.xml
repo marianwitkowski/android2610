@@ -40,4 +40,20 @@
         android:onClick="datePickerDialog"
         android:layout_margin="15dp"/>
 
+    <Button
+        android:id="@+id/btn5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Time picker dialog"
+        android:onClick="timePickerDialog"
+        android:layout_margin="15dp"/>
+
+    <Button
+        android:id="@+id/btn6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Custom dialog"
+        android:onClick="customDialog"
+        android:layout_margin="15dp"/>
+
 </LinearLayout>
