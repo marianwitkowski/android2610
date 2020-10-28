@@ -15,11 +15,13 @@
         android:id="@+id/tvName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Dr Strange"
+        android:text="Dr Strange Dr Strange Dr Strange"
+        android:ellipsize="end"
         android:layout_toRightOf="@id/imageView"
         android:textAlignment="center"
-        android:textSize="35sp"
-        android:paddingBottom="10dp"/>
+        android:textSize="32sp"
+        android:paddingBottom="10dp"
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/tvTeam"
@@ -33,11 +35,13 @@
         />
 
     <Button
+        android:id="@+id/btnDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/imageView"
         android:layout_below="@id/tvTeam"
         android:text="Usuń"
+        android:layout_alignBottom="@id/imageView"
         android:layout_margin="10dp"
         />
 

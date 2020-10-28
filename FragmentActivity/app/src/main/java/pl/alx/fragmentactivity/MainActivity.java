@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements CarListFragment.O
 
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.flContainer2, fragmentB)
+                    .replace(R.id.flContainer2, fragmentB)
                     .commit();
         }
 
