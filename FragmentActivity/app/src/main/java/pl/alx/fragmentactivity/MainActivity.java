@@ -3,6 +3,7 @@ package pl.alx.fragmentactivity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -17,10 +18,27 @@ public class MainActivity extends AppCompatActivity implements CarListFragment.O
         setContentView(R.layout.activity_main);
 
         CarListFragment fragmentA = new CarListFragment();
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.flContainer, fragmentA);
+        if (savedInstanceState==null) {
+            ft.add(R.id.flContainer, fragmentA);
+        } else {
+            ft.replace(R.id.flContainer, fragmentA);
+        }
         ft.commit();
+
+        //detekacja orientacji ekranu
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            CarDetailFragment fragmentB = new CarDetailFragment();
+            Bundle args = new Bundle();
+            args.putInt("position", 0);
+            fragmentB.setArguments(args);
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.flContainer2, fragmentB)
+                    .commit();
+        }
+
     }
 
     @Override
@@ -32,10 +50,17 @@ public class MainActivity extends AppCompatActivity implements CarListFragment.O
         args.putInt("position", position);
         fragmentB.setArguments(args);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.flContainer, fragmentB)
-                .addToBackStack(null)
-                .commit();
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flContainer2, fragmentB)
+                    .commit();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flContainer, fragmentB)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 }
