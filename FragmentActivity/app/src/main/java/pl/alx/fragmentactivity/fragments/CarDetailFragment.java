@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,31 +18,22 @@ import pl.alx.fragmentactivity.R;
 import pl.alx.fragmentactivity.data.CarsData;
 
 // fragments
-public class CarListFragment extends Fragment {
+public class CarDetailFragment extends Fragment {
 
-    ArrayAdapter<String> itemsAdapter;
-
-    public interface OnItemSelectedListener {
-        void onCarItemSelected(int position);
-    }
-
-    private OnItemSelectedListener listener;
+    private int position;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        //listener = (OnItemSelectedListener) context;
     }
-
+    
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        itemsAdapter = new ArrayAdapter<String>(
-                getContext(), //context
-                android.R.layout.simple_list_item_1, //layout dla elementu listy
-                CarsData.carList // dane
-        );
-        listener = (OnItemSelectedListener) getContext();
+        Bundle args = getArguments();
+        if (args!=null) {
+            position = args.getInt("position", 0);
+        }
     }
 
     @Nullable
@@ -49,22 +41,19 @@ public class CarListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_car_list,
+        return inflater.inflate(R.layout.fragment_car_detail,
                 container,
                 false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        ListView lvItems = view.findViewById(R.id.lvItems);
-        lvItems.setAdapter(itemsAdapter);
+        TextView tvTitle = view.findViewById(R.id.tvTitle);
+        TextView tvDetails = view.findViewById(R.id.tvDetails);
 
-        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listener.onCarItemSelected(position);
-            }
-        });
+        tvTitle.setText(CarsData.carList[position]);
+        tvDetails.setText(CarsData.carDetails[position]);
+
     }
 
 }
