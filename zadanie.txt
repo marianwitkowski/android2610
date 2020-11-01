@@ -1,0 +1,18 @@
+1. Mamy taki URL http://51.91.120.89/TABLICE/ . Każdy wiersz w wyniku to nazwa pliku, który można pobrać, dodając do URLa nazwę pliku.
+Np. AB0122BK.jpg -> http://51.91.120.89/TABLICE/AB0122BK.jpg 
+
+2. Proszę napisać przeglądarkę grafik w ten sposób, że należy pobrać dane z http://51.91.120.89/TABLICE/, przeparsować je i załadować do ListView.
+
+3. Kliknięcie pozycji na liście otwiera nowe Activity, w którym ładuje się właściwy plik JPG do ImageView.
+
+4. Grafika ma pojawiać się na całym Activity -> tu znajdzicie atrybuty na okoliczność skalowania grafik: https://developer.android.com/reference/android/widget/ImageView.ScaleType
+
+5. Activity z grafiką ma mieć menu z opcją "Pokaż rozdzielczość pliku", po wybraniu pojawia się okno dialogowe z informacją na temat rozdzielczości pobranego pliku (oryginalnego pliku, a nie komponentu ImageView). Tu proszę znaleźć w jaki sposób to się da zrobić z dokumentacji klasy Bitmap (https://developer.android.com/reference/android/graphics/Bitmap).
+
+5. Activity z grafiką ma mieć menu z opcją "Pokaż w przeglądarce", po wybraniu którego otwiera się okno przeglądarki z URLem do oryginalnego pliku JPG.
+
+6. Wykonać wersję aplikacji wykorzystującą fragmenty (Fragment).
+
+7. Opcjonalnie (dla zainteresowanych): przekonwertować ładowaną grafikę (bitmapę) do skali szarości (można znaleźć sporo metod w internecie).
+
+ 
