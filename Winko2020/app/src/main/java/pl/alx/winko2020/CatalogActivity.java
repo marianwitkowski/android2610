@@ -2,13 +2,18 @@ package pl.alx.winko2020;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,11 +24,25 @@ import java.util.List;
 public class CatalogActivity extends AppCompatActivity {
 
     List<Wine> wineList = new ArrayList<Wine>();
+    ListView listView;
+    CatalogAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
+        listView = findViewById(R.id.listCatalog);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //tworzenie nowego activity ze szczegółami
+                Intent intent = new Intent(CatalogActivity.this, DetailsActivity.class );
+                Wine wine = wineList.get(position);
+                String wineStr = new Gson().toJson(wine);
+                intent.putExtra("data", wineStr);
+                startActivity(intent);
+            }
+        });
         loadData();
     }
 
@@ -69,6 +88,9 @@ public class CatalogActivity extends AppCompatActivity {
             }
         }
         // jesteśmy za pętlą
+        adapter = new CatalogAdapter(this, wineList);
+        listView.setAdapter(adapter);
+
     }
 
 }
