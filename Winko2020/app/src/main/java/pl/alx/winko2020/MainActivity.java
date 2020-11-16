@@ -2,17 +2,22 @@ package pl.alx.winko2020;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.google.gson.JsonObject;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Collections;
@@ -32,6 +37,7 @@ import okhttp3.TlsVersion;
 public class MainActivity extends AppCompatActivity {
 
     EditText etUser, etPass;
+    Button btnLogin;
 
     private static OkHttpClient myHttpClient() {
         try {
@@ -102,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
         etUser = findViewById(R.id.etUser);
         etPass = findViewById(R.id.etPass);
+        btnLogin = findViewById(R.id.btnLogin);
 
         AndroidNetworking.initialize(getApplicationContext(), myHttpClient());
         AndroidNetworking.enableLogging(HttpLoggingInterceptor.Level.BASIC);
@@ -110,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void startLogin(View view) {
 
+        btnLogin.setEnabled(false);
         JSONObject jo = new JSONObject();
         try {
             jo.put("username", etUser.getText().toString().trim());
@@ -127,12 +135,31 @@ public class MainActivity extends AppCompatActivity {
                     .getAsJSONObject(new JSONObjectRequestListener() {
                         @Override
                         public void onResponse(JSONObject response) {
+                            btnLogin.setEnabled(true);
                             Log.i("WINKO", response.toString());
+                            String s = response.optString("access_token", "");
+                            if (s.isEmpty()) {
+                                Toast.makeText(MainActivity.this, "Nie można zalogować się", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Globals.access_token = s;
+                                startActivity(new Intent(MainActivity.this, CatalogActivity.class));
+                            }
+
                         }
 
                         @Override
                         public void onError(ANError anError) {
                             Log.e("WINKO", anError.getErrorDetail());
+                            String s = "";
+                            try {
+                                JSONObject jo = new JSONObject(anError.getErrorBody());
+                                s = jo.getString("error");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                s = "Wystąpił problem podczas logowania";
+                            }
+                            Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
+                            btnLogin.setEnabled(true);
                         }
                     });
 
