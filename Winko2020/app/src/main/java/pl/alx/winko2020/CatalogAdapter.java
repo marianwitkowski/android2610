@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +54,20 @@ public class CatalogAdapter extends BaseAdapter {
 
         tv = view.findViewById(R.id.tvPrice);
         tv.setText(String.format("%.2f zł", wine.getPrice()).replace(".",","));
+
+        ImageView iv = view.findViewById(R.id.imageView);
+        WineUtils.loadImage(ctx, iv, wine.getImage());
+
+        ImageView ivLike = view.findViewById(R.id.imageViewLike);
+        WineUtils.setLikeState(ivLike, wine);
+
+        ivLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(ctx, "Like", Toast.LENGTH_SHORT).show();
+                WineUtils.changeLike(ivLike, wine);
+            }
+        });
 
         return view;
     }
