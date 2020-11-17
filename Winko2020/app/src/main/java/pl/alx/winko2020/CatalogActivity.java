@@ -1,9 +1,12 @@
 package pl.alx.winko2020;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +20,8 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.google.gson.Gson;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -46,10 +51,31 @@ public class CatalogActivity extends AppCompatActivity {
             }
         });
         loadData();
+        
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter("winko2020"));
+
+        EventBus.getDefault().register(this);
+
     }
 
+    @Subscribe
+    public void onEvent(Wine wine) {
+        Log.i("winko2020", "odebrałem:" + wine.getPimId());
+    }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i("winko2020", "broadcastReceiver");
+            Toast.makeText(context, intent.getStringExtra("message"), Toast.LENGTH_SHORT).show();
+            //listView.invalidateViews();
+            adapter.notifyDataSetChanged();
+        }
+    }; 
+    
     @Override
     protected void onStop() {
+        //LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
         super.onStop();
     }
 

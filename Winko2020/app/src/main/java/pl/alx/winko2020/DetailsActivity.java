@@ -1,8 +1,10 @@
 package pl.alx.winko2020;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -18,6 +20,8 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.squareup.seismic.ShakeDetector;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -113,6 +117,12 @@ public class DetailsActivity extends AppCompatActivity {
         editor.commit();
 
         WineUtils.playBeep(this);
+
+        Intent intent = new Intent("winko2020");
+        intent.putExtra("message", "kliknięto serduszko");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
+        EventBus.getDefault().post(wine);
     }
 
     @Override

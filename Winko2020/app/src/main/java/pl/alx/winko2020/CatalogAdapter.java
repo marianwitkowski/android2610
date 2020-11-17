@@ -23,6 +23,7 @@ public class CatalogAdapter extends BaseAdapter {
         this.wineList = wineList;
     }
 
+
     @Override
     public int getCount() {
         return wineList.size();
@@ -38,35 +39,50 @@ public class CatalogAdapter extends BaseAdapter {
         return 0;
     }
 
+    static class ViewHolder {
+        private TextView tvName;
+        private TextView tvCountry;
+        private TextView tvColor;
+        private TextView tvPrice;
+        private ImageView imageView;
+        private ImageView imageViewLike;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(ctx);
-        View view = inflater.inflate(R.layout.row_catalog, null);
+
+        ViewHolder holder;
+        if (convertView==null) {
+            convertView = inflater.inflate(R.layout.row_catalog, null);
+            holder = new ViewHolder();
+            holder.tvName = convertView.findViewById(R.id.tvName);
+            holder.tvCountry = convertView.findViewById(R.id.tvCountry);
+            holder.tvColor = convertView.findViewById(R.id.tvColor);
+            holder.tvPrice = convertView.findViewById(R.id.tvPrice);
+            holder.imageView = convertView.findViewById(R.id.imageView);
+            holder.imageViewLike = convertView.findViewById(R.id.imageViewLike);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
         Wine wine = wineList.get(position);
-        TextView tv = view.findViewById(R.id.tvName);
-        tv.setText(wine.getName());
 
-        tv = view.findViewById(R.id.tvCountry);
-        tv.setText(wine.getCountry());
+        holder.tvName.setText(wine.getName());
+        holder.tvCountry.setText(wine.getCountry());
+        holder.tvColor.setText(wine.getColor());
+        holder.tvPrice.setText(String.format("%.2f zł", wine.getPrice()).replace(".",","));
 
-        tv = view.findViewById(R.id.tvColor);
-        tv.setText(wine.getColor());
+        WineUtils.loadImage(ctx, holder.imageView, wine.getImage());
 
-        tv = view.findViewById(R.id.tvPrice);
-        tv.setText(String.format("%.2f zł", wine.getPrice()).replace(".",","));
+        WineUtils.setLikeState(holder.imageViewLike, wine);
 
-        ImageView iv = view.findViewById(R.id.imageView);
-        WineUtils.loadImage(ctx, iv, wine.getImage());
-
-        ImageView ivLike = view.findViewById(R.id.imageViewLike);
-        WineUtils.setLikeState(ivLike, wine);
-
-        ivLike.setOnClickListener(new View.OnClickListener() {
+        holder.imageViewLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(ctx, "Like", Toast.LENGTH_SHORT).show();
-                WineUtils.changeLike(ivLike, wine);
+                WineUtils.changeLike(holder.imageViewLike, wine);
                 SharedPreferences sharedPreferences =  ctx.getSharedPreferences("winko2020", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("liked_wines", WineUtils.getLikesAsString());
@@ -74,6 +90,6 @@ public class CatalogAdapter extends BaseAdapter {
             }
         });
 
-        return view;
+        return convertView;
     }
 }
