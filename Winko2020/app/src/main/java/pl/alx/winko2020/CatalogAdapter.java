@@ -1,6 +1,7 @@
 package pl.alx.winko2020;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,10 @@ public class CatalogAdapter extends BaseAdapter {
             public void onClick(View v) {
                 //Toast.makeText(ctx, "Like", Toast.LENGTH_SHORT).show();
                 WineUtils.changeLike(ivLike, wine);
+                SharedPreferences sharedPreferences =  ctx.getSharedPreferences("winko2020", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("liked_wines", WineUtils.getLikesAsString());
+                editor.commit();
             }
         });
 

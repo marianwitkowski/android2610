@@ -2,7 +2,9 @@ package pl.alx.winko2020;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -119,6 +121,10 @@ public class MainActivity extends AppCompatActivity {
         AndroidNetworking.initialize(getApplicationContext(), myHttpClient());
         AndroidNetworking.enableLogging(HttpLoggingInterceptor.Level.BASIC);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("winko2020", Context.MODE_PRIVATE);
+        String s = sharedPreferences.getString("liked_wines", "{}");
+        WineUtils.loadLikes(s);
+
     }
 
     public void startLogin(View view) {
@@ -149,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
                             } else {
                                 Globals.access_token = s;
                                 startActivity(new Intent(MainActivity.this, CatalogActivity.class));
+                                finish();
                             }
 
                         }

@@ -1,6 +1,7 @@
 package pl.alx.winko2020;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
@@ -15,6 +16,7 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class WineUtils {
@@ -72,5 +74,17 @@ public class WineUtils {
         } catch (Exception exc) {
 
         }
+    }
+
+    public static void loadLikes(String s)  {
+        try {
+            likedWines = new JSONObject(s);
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+    }
+
+    public static String getLikesAsString() {
+        return likedWines.toString();
     }
 }
