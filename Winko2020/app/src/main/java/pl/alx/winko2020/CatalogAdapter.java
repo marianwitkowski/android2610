@@ -42,7 +42,7 @@ public class CatalogAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(ctx);
         View view = inflater.inflate(R.layout.row_catalog, null);
-        
+
         Wine wine = wineList.get(position);
         TextView tv = view.findViewById(R.id.tvName);
         tv.setText(wine.getName());

@@ -2,7 +2,10 @@ package pl.alx.winko2020;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -86,5 +89,23 @@ public class WineUtils {
 
     public static String getLikesAsString() {
         return likedWines.toString();
+    }
+
+    public static void playBeep(Context ctx) {
+        AssetFileDescriptor afd = null;
+        try {
+            afd = ctx.getAssets().openFd("beep.mp3");
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength() );
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (Exception exc) {
+            Log.e("winko2020", exc.getMessage());
+        } finally {
+            try {
+                afd.close();
+            } catch (Exception exc) {
+            }
+        }
     }
 }
