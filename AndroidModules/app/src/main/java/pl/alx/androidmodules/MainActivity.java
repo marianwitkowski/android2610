@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, MapsActivity.class));
                 return true;
 
+            case R.id.menu_gps:
+                startActivity(new Intent(this, GpsActivity.class));
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
 

@@ -17,4 +17,8 @@
         android:title="Mapy Google"
         ></item>
 
+    <item android:id="@+id/menu_gps"
+        android:title="GPS"
+        ></item>
+
 </menu>

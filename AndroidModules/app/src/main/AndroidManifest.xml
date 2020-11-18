@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_SERVICES" />
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -18,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidModules">
-        <activity android:name=".MapsActivity"></activity>
+        <activity android:name=".GpsActivity"></activity>
+        <activity android:name=".MapsActivity" />
         <activity android:name=".ImageMoveActivity" />
         <activity android:name=".CameraActivity" />
         <activity android:name=".XmlActivity" />
