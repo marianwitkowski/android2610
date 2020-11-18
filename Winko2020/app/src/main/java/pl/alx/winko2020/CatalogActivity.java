@@ -2,6 +2,7 @@ package pl.alx.winko2020;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,11 +30,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class CatalogActivity extends AppCompatActivity {
 
     List<Wine> wineList = new ArrayList<Wine>();
+    List<Wine> allWineList = new ArrayList<Wine>();
+    int partId = 0;
     ListView listView;
     CatalogAdapter adapter;
+
+    final int PART_SIZE = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,15 @@ public class CatalogActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter("winko2020"));
 
         EventBus.getDefault().register(this);
+
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
     }
 
@@ -114,16 +130,42 @@ public class CatalogActivity extends AppCompatActivity {
                         jo.getInt("liczba_glosow"),
                         jo.getInt("suma_ocen")
                 );
-                wineList.add(wine);
-                if (i>=50) break;
+                allWineList.add(wine);
+                if (i>=125) break;
             } catch (Exception exc) {
                 Log.e("WINKO", exc.getMessage());
             }
         }
+
         // jesteśmy za pętlą
+        partId = 0;
+        wineList = loadPartialData();
         adapter = new CatalogAdapter(this, wineList);
         listView.setAdapter(adapter);
 
     }
 
+    public List<Wine> loadPartialData() {
+        int indexStart = partId*PART_SIZE;
+        int indexStop = partId*PART_SIZE + PART_SIZE;
+        if (indexStart>=allWineList.size()) {
+            return new ArrayList<>();
+        }
+        if (indexStop>allWineList.size()) {
+            indexStop = allWineList.size();
+        }
+        List<Wine> data = new ArrayList<>(allWineList.subList(indexStart, indexStop));
+        return data;
+    }
+
+
+    public void loadMore(View view) {
+        partId++;
+        adapter.addData(loadPartialData());
+
+        if ((partId+1)*PART_SIZE>=allWineList.size()-1) {
+            //zablokuj przycisk
+            ((Button)view).setEnabled(false);
+        }
+    }
 }

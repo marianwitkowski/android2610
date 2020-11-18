@@ -1,5 +1,6 @@
 package pl.alx.winko2020;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -125,7 +126,16 @@ public class MainActivity extends AppCompatActivity {
         String s = sharedPreferences.getString("liked_wines", "{}");
         WineUtils.loadLikes(s);
 
+        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+
     }
+
+    Thread.UncaughtExceptionHandler crashHandler = new Thread.UncaughtExceptionHandler() {
+        @Override
+        public void uncaughtException(@NonNull Thread t, @NonNull Throwable e) {
+            Log.e("ERROR", e.getMessage() );
+        }
+    };
 
     public void startLogin(View view) {
 

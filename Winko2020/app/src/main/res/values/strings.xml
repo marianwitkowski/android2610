@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Winko2020</string>
+    <string name="crash_toast">Wystąpił crash aplikacji</string>
 </resources>

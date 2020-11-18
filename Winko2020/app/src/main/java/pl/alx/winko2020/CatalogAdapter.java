@@ -23,6 +23,10 @@ public class CatalogAdapter extends BaseAdapter {
         this.wineList = wineList;
     }
 
+    public void addData(List<Wine> data) {
+        wineList.addAll(data);
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getCount() {
