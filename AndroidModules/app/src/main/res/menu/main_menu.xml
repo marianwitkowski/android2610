@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_xml"
+        android:title="XML"
+        ></item>
+
+    <item android:id="@+id/menu_camera"
+        android:title="Kamera"
+        ></item>
+
+    <item android:id="@+id/menu_gesture"
+        android:title="Przesuwanie grafiki"
+        ></item>
+
+    <item android:id="@+id/menu_maps"
+        android:title="Mapy Google"
+        ></item>
+
+</menu>
