@@ -34,6 +34,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, CameraActivity.class));
                 return true;
 
+            case R.id.menu_gesture:
+                startActivity(new Intent(this, ImageMoveActivity.class));
+                return true;
+
+            case R.id.menu_maps:
+                startActivity(new Intent(this, MapsActivity.class));
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
 

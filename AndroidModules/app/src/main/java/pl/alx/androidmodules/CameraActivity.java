@@ -99,5 +99,7 @@ public class CameraActivity extends AppCompatActivity {
                         new String[]{Manifest.permission.CAMERA}, CAMERA_PERM_REQUEST );
             }
         });
+
+        alertDialog.show();
     }
 }
